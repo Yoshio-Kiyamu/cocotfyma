@@ -2,7 +2,7 @@ create table productos_terminados (
 id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 SKU VARCHAR(255) NOT NULL,
 Item_nombre VARCHAR(50) NOT NULL,
-item_nombre VARCHAR(255) NOT NULL,
+item_nombre VAaaaaaaaaaaaaaaaaaaaaRCHAR(255) NOT NULL,
 precio_doc Decimal(4,2) not null,
 precio_unit Decimal(4,2) not null,
 precio_web Decimal(4,2) not null,
