@@ -10,6 +10,7 @@
 
   <!--<label for="droptallaVIENEDEAJAX">Seleccionar talla</label>-->
   <!--<select class="form-control select_talla" id="droptalla">-->
+    <option selected> click </option>
     <?php foreach($codigos as $codigo){ ?>
       <?php //ChromePhp::log(utf8_encode($codigo->talla)); ?>
        <option><?php echo utf8_encode($codigo->talla);  ?></option>

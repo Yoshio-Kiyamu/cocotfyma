@@ -2,16 +2,29 @@
 <?php
 
   $nombre = utf8_decode($_GET['nombre']);
+  $talla = utf8_decode($_GET['talla']);
   //pagination variables
   $current_page = $_GET['page'] ?? 1;
   $per_page = 15;
-  $total_count = sku::count_all_con_query('item_nombre',$nombre);
+  //num rows based on query and given parameters
+  if($talla == 'click'){
+    $total_count = sku::count_all_con_query('item_nombre',$nombre);
+  }elseif($talla != 'click'){
+    $total_count = sku::count_all_con_query_2para('item_nombre',$nombre,'talla',$talla);
+  }
+ChromePhp::log('NUMERO DE ROWS BASED ON SEARCH ', $total_count);
 
   $pagination = new Paginationfilt_name($current_page, $per_page, $total_count);
   $num_rows_offset = $pagination->offset();
 
-  //$codigos = sku::find_all_offset_page($per_page,$num_rows_offset);
-  $codigos = sku::find_all_offset_page_like($per_page, $num_rows_offset,'item_nombre',$nombre);
+  //DB pulled data based on query and given parameters
+  if($talla == 'click'){
+    $codigos = sku::find_all_offset_page_like($per_page, $num_rows_offset,'item_nombre',$nombre);
+  }elseif($talla != 'click'){
+    $codigos = sku::find_all_offset_page_like_2para($per_page, $num_rows_offset,'item_nombre',$nombre,'talla',$talla);
+  }
+//ChromePhp::log('DB pulled data-> ', $codigos);
+
 ?>
 
 <table id="table" class="table table-bordered table-intel">
@@ -43,6 +56,6 @@
   </tbody>
 </table>
 <?php
-  $url = url_for('index_dos.php?nombre=' .  utf8_encode($nombre));
+  $url = url_for('index_dos.php?nombre=' .  utf8_encode($nombre) . '&talla=' . utf8_encode($talla));
   echo $pagination->page_links($url);
 ?>

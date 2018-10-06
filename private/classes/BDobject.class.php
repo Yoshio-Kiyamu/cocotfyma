@@ -30,10 +30,28 @@ static public function find_all_offset_page_like($per_page='', $num_rows_offset=
 	$sql .= " OFFSET ". self::$database->escape_string($num_rows_offset) ."";
 	return static::find_by_sql($sql);
 }
-//READ-PULL
+//READ-PULL para paginations con "like" value con 2 parametros
+static public function find_all_offset_page_like_2para($per_page='', $num_rows_offset='',$col='',$string='',$col2='',$string2=''){
+	$sql = "SELECT * FROM " . static::$table_name . "";
+	$sql .= " WHERE (".self::$database->escape_string($col)." LIKE '%".self::$database->escape_string($string)."%' ";
+	$sql .= " AND ".self::$database->escape_string($col2)." LIKE '%".self::$database->escape_string($string2)."%' )";
+	$sql .= " LIMIT ". self::$database->escape_string($per_page) ."";
+	$sql .= " OFFSET ". self::$database->escape_string($num_rows_offset) ."";
+	return static::find_by_sql($sql);
+}
+//READ-PULL | like value en una columna
 static public function count_all_con_query($col='',$string=''){
 	$sql = "SELECT COUNT(*) FROM " . static::$table_name. ""; //se usa static y no self para que llame al child class
 	$sql .= " WHERE ".self::$database->escape_string($col)." LIKE '%".self::$database->escape_string($string)."%' ";
+	$return_set = self::$database->query($sql);
+	$row = $return_set->fetch_array();//fetch_array is used for 1 value result
+	return array_shift($row);
+}
+//READ-PULL | like value en dos columnas
+static public function count_all_con_query_2para($col='',$string='',$col2='',$string2=''){
+	$sql = "SELECT COUNT(*) FROM " . static::$table_name. ""; //se usa static y no self para que llame al child class
+	$sql .= " WHERE (".self::$database->escape_string($col)." LIKE '%".self::$database->escape_string($string)."%' ";
+	$sql .= " AND ".self::$database->escape_string($col2)." LIKE '%".self::$database->escape_string($string2)."%' )";
 	$return_set = self::$database->query($sql);
 	$row = $return_set->fetch_array();//fetch_array is used for 1 value result
 	return array_shift($row);
